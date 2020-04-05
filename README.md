@@ -79,8 +79,8 @@ L'objectif est d'afficher de temps en temps un exemple de la commande pour aider
 
 ## Les classements
 
-YAGPBD affichera le classement des arènes par ordre décroissant de EX-Score en réponse à la commande `EX-Liste`.
-De même pour le classement des utilisateurs par EX-Gloire avec la commande `EX-Gloire`.
+YAGPBD affichera le classement des arènes par ordre décroissant de EX-Score en réponse à la commande `EX-Scores`.
+De même pour le classement des utilisateurs par EX-Gloire avec la commande `EX-Gloires`.
 
 *Ces commandes ne renvoient que les 100 premiers éléments, au maximum.*
 
