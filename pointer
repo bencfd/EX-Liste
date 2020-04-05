@@ -3,7 +3,7 @@
 <n> is the level of the raid.
 <tag> is an abbreviation of a gym eligible to EX raids.
 The record for the gym corresponding to tag is incremented by a number of points related to the raid level. The user's own "EX-Gloire" record gets incremented by 1.
-The response is sent to a particular channel. There is also 1 chance out of 6 to print the actual command used by the user, to help others understand how it works.
+The response can be sent to a particular channel. There is also 1 chance out of 6 to print the actual command used by the user, to help others understand how it works.
 */}}
 {{ $args := parseArgs 2 "Il faut :two: arguments : le niveau du raid et le tag de l'arène. Utilise `@YAGPDB.xyz tags` pour voir la liste des tags disponibles."
   (carg "int" "level")
@@ -28,10 +28,10 @@ The response is sent to a particular channel. There is also 1 chance out of 6 to
     {{ $glory := (toInt (dbIncr 1 $gloryKey $dice)) }}
     {{ if (eq $total 1) }} {{ $orthototal := "point" }} {{ end }}
     {{ $response := (joinStr "" $points " " $orthopoints " à l'arène `" $gym "`, " (.User.Mention) ". Son EX-Score est de " $total " " $orthototal ". Ta propre EX-Gloire est passée à " $glory ".") }}
-    {{ sendMessage <channelID> $response }}
+    {{ sendMessage nil $response }}
     {{ if (eq $dice 7) }}
       {{ $luckyGreet := (joinStr "" ":sunglasses: " (.User.Username) " a utilisé à merveille la commande `@YAGPDB.xyz pointer " $level " " $gym "`. *Very smart!*" ) }}
-      {{ sendMessage <channelID> $luckyGreet }}
+      {{ sendMessage nil $luckyGreet }}
     {{ end }}
 	{{ else }}
 		:x: Arène non reconnue. Utilise `@YAGPDB.xyz tags` pour voir la liste des tags disponibles.

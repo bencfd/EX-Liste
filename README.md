@@ -48,15 +48,15 @@ Le `<tag>` de l'arène doit être parmi une liste prédéfinie. Son entrée (*in
 
 ## Réponses et redirection
 
-Les messages d'erreur sont envoyés là où la commande a été utilisée. Les confirmations (quand tout se passe bien) sont envoyées dans un canal en particulier dont on peut fournir l'identifiant dans la commande `pointer` :
+Les messages d'erreur sont envoyés là où la commande a été utilisée. Les confirmations (quand tout se passe bien) peuvent être envoyées dans un canal en particulier dont on peut fournir l'identifiant dans la commande `pointer` :
 
 ```
 ...
-{{ sendMessage <identifiant> $response }}
+{{ sendMessage nil $response }}
 ...
 ```
 
-*Pour ne pas rediriger les confirmations, remplacez `<identifiant>` par `nil`.*
+*Remplacez `nil` par l'identifiant du canal où rediriger les confirmations.*
 
 Les confirmations rappellent le nombre de points ajoutés à l'arène, son nouvel EX-Score et la nouvelle EX-Gloire de l'utilisateur.
 
