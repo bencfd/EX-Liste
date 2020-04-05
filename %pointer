@@ -1,0 +1,44 @@
+{{/*
+%pointer <n> <tag>
+<n> is the level of the raid.
+<tag> is an abbreviation of a gym eligible to EX raids.
+The record for the gym corresponding to tag is incremented by a number of points related to the raid level. The user's own "EX-Gloire" record gets incremented by 1.
+The response is sent to a particular channel (ID: 649161389172195332). There is also 1 chance out of 6 to print the actual command used by the user, to help others understand how it works.
+*/}}
+{{ $args := parseArgs 2 "Il faut :two: arguments : le niveau du raid et le tag de l'arène. Utilise `@YAGPDB.xyz tags` pour voir la liste des tags disponibles."
+  (carg "int" "level")
+  (carg "string" "gym") }}
+{{ $level := ( $args.Get 0 ) }}
+{{ $gym := (upper ( $args.Get 1 )) }}
+{{ $gymKey := (joinStr "" "gym" ( $gym )) }}
+{{ $gloryKey := (joinStr "" "glory" ( .User.ID ) ) }}
+{{ $points := $level }}
+{{ if (eq $level 2) }} {{ $points = 1 }} {{ end }}
+{{ if (eq $level 4) }} {{ $points = 3 }} {{ end }}
+{{ $orthototal := "points" }}
+{{ $orthopoints := "points ajoutés" }}
+{{ if (eq $points 1) }}
+  {{ $orthopoints = "point ajouté" }}
+{{ end }}
+{{ $dice := (add (randInt 1 7) (randInt 1 7)) }}
+
+{{ if and (le $level 5) (ge $level 1) }}
+	{{ if or (eq $gym "AJC") (eq $gym "AJFE") (eq $gym "BVF") (eq $gym "CDB") (eq $gym "CPV") (eq $gym "JPE") (eq $gym "RSS") (eq $gym "VVH") (eq $gym "5S") (eq $gym "SM") (eq $gym "MCJA") (eq $gym "MDC") (eq $gym "OUFC") (eq $gym "PPB") (eq $gym "PRW") (eq $gym "TBC") }}
+    {{ $total := (toInt (dbIncr 0 $gymKey $points)) }}
+    {{ $glory := (toInt (dbIncr 1 $gloryKey $dice)) }}
+    {{ if (eq $total 1) }} {{ $orthototal := "point" }} {{ end }}
+    {{ $response := (joinStr "" $points " " $orthopoints " à l'arène `" $gym "`, " (.User.Mention) ". Son EX-Score est de " $total " " $orthototal ". Ta propre EX-Gloire est passée à " $glory ".") }}
+    {{ sendMessage 485754676281868288 $response }}
+    {{ if (eq $dice 7) }}
+      {{ $luckyGreet := (joinStr "" ":sunglasses: " (.User.Username) " a utilisé à merveille la commande `@YAGPDB.xyz pointer " $level " " $gym "`. *Very smart!*" ) }}
+      {{ sendMessage 485754676281868288 $luckyGreet }}
+    {{ end }}
+	{{ else }}
+		:x: Arène non reconnue. Utilise `@YAGPDB.xyz tags` pour voir la liste des tags disponibles.
+	{{ end }}
+{{ else }}
+	:x: Le niveau du raid doit être compris entre 1 et 5.
+{{ end }}
+
+{{ deleteTrigger "1" }}
+{{/* To do before release: update the channel ID in both sendMessage instances to the correct ID.*/}}
