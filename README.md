@@ -72,7 +72,7 @@ Si les arguments fournis par l'utilisateur avec la commande `pointer` sont corre
 Si les arguments fournis par l'utilisateur avec la commande `pointer` sont corrects, sa EX-Gloire est incrémentée du résultat de deux lancers de dé. Si le résultat est 7 (1 chance sur 6), la commande `pointer` enverra un message de félicitations supplémentaire :
 
 ```
-:sunglasses: <user> a utilisé à merveille la commande `@YAGPDB.xyz pointer <n> <tag>. *Very smart!*
+:sunglasses: <user> a utilisé à merveille la commande `@YAGPDB.xyz pointer <n> <tag>`. *Very smart!*
 ```
 
 L'objectif est d'afficher de temps en temps un exemple de la commande pour aider les autres utilisateurs.
