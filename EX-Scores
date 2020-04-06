@@ -1,0 +1,8 @@
+{{ $ortho := "points" }}
+{{ $entries := dbTopEntries "gym%" 100 0 }}{{ if (len $entries) }}:stadium: **Classement des arènes par EX-Score**
+{{ range $entries }}{{ if eq (toInt .Value) 1 }}{{ $ortho = "point" }}{{ else }}{{ $ortho = "points" }}{{ end }}`{{ reReplace "gym" (.Key) "" }}` : {{toInt .Value}} {{ $ortho }}
+{{end}}
+{{else}}
+Aucun point n'est enregistré dans la EX-Liste. Pour enregistrer des points, utilisez la commande `@YAGPDB.xyz pointer`.
+{{end}}
+{{deleteTrigger "1"}}

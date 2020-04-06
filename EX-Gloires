@@ -1,0 +1,10 @@
+{{ $ortho := "points" }}
+{{ $hypes := dbTopEntries "glory%" 100 0 }}
+{{if (len $hypes)}}
+  :trophy: **Classement par EX-Gloire**
+  {{range $hypes}}{{ if eq (toInt .Value) 1 }}{{ $ortho = "point" }}{{ else }}{{ $ortho = "points" }}{{ end }}{{ (userArg (reReplace "glory" (.Key) "")).Username }} : {{toInt .Value}} {{ $ortho }}
+  {{end}}
+  {{else}}
+    Aucune contribution à la EX-Liste n'est enregistrée. Pour enregistrer des points, utilisez la commande `@YAGPDB.xyz pointer`.
+{{end}}
+{{ deleteTrigger "1" }}

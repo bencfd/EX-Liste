@@ -1,0 +1,18 @@
+{{ $args := parseArgs 2 "Il faut :two: arguments : la mention du membre et la correction à appliquer à son EX-Gloire."
+	(carg "user" "user")
+	(carg "int" "corr") }}
+{{ $userID := ($args.Get 0).ID }}
+{{ $userKey := (joinStr "" "glory" ($userID)) }}
+{{ $corr := ($args.Get 1) }}
+{{ $orthop := "points" }}
+{{ $value := (toInt (dbGet 1 ($userKey)).Value) }}
+{{ $newGlory := (add $value $corr) }}
+{{ if (lt $newGlory 0) }}{{ $newGlory = 0 }}{{ $orthop = "point" }}{{ end }}
+{{ if (eq $corr 0) }}
+Un entier *non-nul*, espèce de fifrelin ! :upside_down:
+{{ else }}
+{{ dbSet 1 ($userKey) ($newGlory) }}
+{{ if (eq (toInt $newGlory) 1) }}{{ $orthop = "point" }}{{ end }}
+EX-Gloire de <@{{ $userID }}> corrigée : {{ $newGlory }} {{ $orthop }}.
+{{ end }}
+{{ deleteTrigger "1" }}

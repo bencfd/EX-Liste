@@ -1,0 +1,22 @@
+{{ $args := parseArgs 2 "Il faut :two: arguments : le `tag` de l'arène et la correction à appliquer à son EX-Score."
+	(carg "string" "gym")
+	(carg "int" "corr") }}
+{{ $gym := (upper ($args.Get 0)) }}
+{{ $gymKey := (joinStr "" "gym" ($gym)) }}
+{{ $corr := ($args.Get 1) }}
+{{ $orthop := "points" }}
+{{ $value := (toInt (dbGet 0 ($gymKey)).Value) }}
+{{ $newScore := (add $value $corr) }}
+{{ if (lt $newScore 0) }}{{ $newScore = 0 }}{{ $orthop = "point" }}{{ end }}
+{{ if (eq $corr 0) }}
+Un entier *non-nul*, espèce de fifrelin ! :upside_down:
+{{ else }}
+{{ if or (eq $gym "ABC") (eq $gym "DEF") (eq $gym "XYZ")
+ }}
+{{ dbSet 0 ($gymKey) ($newScore) }}
+{{ if (eq (toInt $newScore) 1) }}{{ $orthop = "point" }}{{ end }}EX-Score de l'arène `{{ $gym }}` corrigé : {{ $newScore }} {{ $orthop }}.
+{{ else }}
+:x: Arène non reconnue. Utilise `@YAGPDB.xyz tags` pour voir la liste des tags disponibles.
+{{ end }}
+{{ end }}
+{{ deleteTrigger "1" }}

@@ -1,0 +1,10 @@
+{{ $gymEntries := dbGetPattern 0 "gym%" 8 0 }}
+{{ range $gymEntries }} {{ dbDel 0 (.Key) }}
+{{end}}
+{{ $rest := dbGetPattern 0 "gym%" 100 0 }}
+{{ if eq (len $rest) 0 }}
+La EX-Liste a été réinitialisée.
+{{ else }}
+Il reste encore au moins {{ (len $rest) }} entrée(s) dans la EX-Liste. Lancez la commande à nouveau pour en supprimer jusqu'à 8.
+{{ end }}
+{{ deleteTrigger "1" }}

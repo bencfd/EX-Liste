@@ -23,7 +23,7 @@ The response can be sent to a particular channel. There is also 1 chance out of 
 {{ $dice := (add (randInt 1 7) (randInt 1 7)) }}
 
 {{ if and (le $level 5) (ge $level 1) }}
-	{{ if or (eq $gym "AJC") (eq $gym "AJFE") (eq $gym "BVF") (eq $gym "CDB") (eq $gym "CPV") (eq $gym "JPE") (eq $gym "RSS") (eq $gym "VVH") (eq $gym "5S") (eq $gym "SM") (eq $gym "MCJA") (eq $gym "MDC") (eq $gym "OUFC") (eq $gym "PPB") (eq $gym "PRW") (eq $gym "TBC") }}
+	{{ if or (eq $gym "ABC") (eq $gym "DEF") (eq $gym "XYZ") }}
     {{ $total := (toInt (dbIncr 0 $gymKey $points)) }}
     {{ $glory := (toInt (dbIncr 1 $gloryKey $dice)) }}
     {{ if (eq $total 1) }} {{ $orthototal := "point" }} {{ end }}
@@ -41,4 +41,3 @@ The response can be sent to a particular channel. There is also 1 chance out of 
 {{ end }}
 
 {{ deleteTrigger "1" }}
-{{/* To do before release: update the channel ID in both sendMessage instances to the correct ID.*/}}

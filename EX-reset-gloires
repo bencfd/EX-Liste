@@ -1,0 +1,10 @@
+{{ $gloryEntries := dbGetPattern 1 "glory%" 8 0 }}
+{{ range $gloryEntries }} {{ dbDel 1 (.Key) }}
+{{ end }}
+{{ $rest := dbGetPattern 1 "glory%" 100 0 }}
+{{ if eq (len $rest) 0 }}
+La EX-Gloire a été réinitialisée.
+{{ else }}
+Il reste encore au moins {{ (len $rest) }} entrée(s) de EX-Gloire. Lancez la commande à nouveau pour en supprimer jusqu'à 8.
+{{ end }}
+{{ deleteTrigger "1" }}
